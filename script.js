@@ -1,4 +1,4 @@
-var APIKey = "2c31d1b4f04a9808197b6b9242d8d05a";
+// var APIKey = "2c31d1b4f04a9808197b6b9242d8d05a";
 // var currentCity = "";
 // var lastCity = "";
 
@@ -55,13 +55,13 @@ function getInput(){
     $(".city-name").append(icon)    
     $(".city-name").append(uvIndex)
     $(".city-name").append(wind)    
-    $(".city-name").append(temp)    
+    $(".city-name").append(temperature)    
     $(".city-name").append(humidity)    
     $(".city-name").append(cityName)    
     $(".city-name").append(dateTime)   
     
-    var geoLink = 'https://api.openweathermap.org/geo/1.0/direct?q=' + cityCode + "," + countryCode + "&limit=5&appid=2c31d1b4f04a9808197b6b9242d8d05a"
-    // using fetch method, conver response into json and return
+    var geoLink = 'https://api.openweathermap.org/geo/1.0/direct?q=' + cityCode + "," + countryCode + "&limit=5&appid=04f50896a4e31a98e332740a88e3546c"
+    // using fetch method, convert response into json and return
     fetch(geoLink)
     .then(function(response){
         return response.json();
@@ -71,17 +71,18 @@ function getInput(){
         latitude = data[0].lat;
 
         // fetching current wather
-        var theUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + latitude + "&lon="+ longitude + "&exclude=minutely,hourly,alerts&units=imperial&appid=2c31d1b4f04a9808197b6b9242d8d05a";
+        var theUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + latitude + "&lon="+ longitude + "&exclude=minutely,hourly,alerts&units=imperial&appid=04f50896a4e31a98e332740a88e3546c";
 
         fetch(theUrl)
         .then (function(response){
             return response.json();
         })
         .then (function(data){
+            console.log(data)
+            weatherIcon= data.current.weather[0].icon;
 
             img = "https://openweathermap.org/img/wn/" + weatherIcon + ".png";
             icon.attr('src',img)
-            weatherIcon= data.current.weather[0].icon;
         
             cityName.text(cityCode);
 
@@ -134,3 +135,43 @@ function getInput(){
         })
     })
 }
+// get data from local storage
+function getData(){
+    var currentList =localStorage.getItem("city");
+    if (currentList !== null ){
+        newList = JSON.parse(currentList);
+        return newList;
+    } else {
+        newList = [];
+    }
+    return newList;
+
+}
+
+//set data to local storage
+function addInput () {
+    var addedItems = getInput();
+    cityList = getData();
+    
+    if (cityList.includes(cityInput) === false){
+        addedItems.push();
+    }
+   
+    localStorage.setItem("city", JSON.stringify(addedItems));
+};
+
+//render city list
+function renderCityList () {
+    var cityList = getData();
+    for (var i = 0; i < cityList.length; i++) {
+        var cityInput = cityList[i];
+        var lastCity =$("<div>") 
+        lastCity.text(cityInput) 
+        lastCity.addClass("h4")
+        lastCity.attr('id',cityInput) 
+
+        $(".prev-searched-cities").append(lastCity)
+    }
+};
+
+renderCityList();
