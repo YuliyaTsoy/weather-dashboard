@@ -34,42 +34,47 @@
     <title>Weather Dashboard</title>
   </head>
   <body class="flex-colomn min-100-vh">
-    <header class="hero mb-4 bg-secondary bg-gradient shadow p-3 bg-body-tertiary rounded">
+    <header
+      class="hero mb-4 bg-secondary bg-gradient shadow p-3 bg-body-tertiary rounded"
+    >
       <h1 class="title text-center text-white">
         <i class="fas fa-cloud-sun-rain"></i> Weather Dashboard
       </h1>
-  </header>
+    </header>
 
-  <main class="flex-row justify-space-between">
-    <div class="col-12 col-sm-12 col-md-4 float-left">
+    <main class="flex-row justify-space-between">
+      <div class="col-12 col-sm-12 col-md-4 float-left">
+        <div class="card">
+          <h3 class="card-header fs-4">Search for a City</h3>
+          <div id="form" class="card-body">
+            <input type="text" id="cityInput" placeholder="Enter City Name" />
+            <button class="btn btn-secondary btn-small" id="searchButton">
+              Search
+            </button>
+          </div>
+        </div>
 
-      <div class="card ">
-        <h3 class="card-header fs-4">Search for a city</h3>
-        <div id="form" class="card-body">
-          <input type="text" id="cityInput" placeholder="Enter City Name"/>
-          <button class="btn btn-secondary btn-small" id="searchBtn">Search</button>
+        <div class="card prev-searched-cities">
+          <h3 class="card-header fs-4">Previously Searched Cities</h3>
         </div>
       </div>
 
-      <div class="card history">
-        <h3 class="card-header fs-4">Search History</h3>
-      </div>
-    </div>
+      <div class="col-12 col-sm-12 col-md-8 float-end">
+        <div>
+          <h2 class="card-subtitle text-center fs-4 bg-light">
+            Current Weather
+          </h2>
+          <div class="city-name"></div>
+        </div>
 
-    <div class="col-12 col-sm-12 col-md-8 float-end">
-      <div>
-        <h2 class="subtitle fs-4 bg-light">Current Weather</h2>
-        <div class="city"></div>
+        <div>
+          <h2 class="card-subtitle text-center fs-4 bg-light">
+            5 Day forecast
+          </h2>
+          <div class="five-day-forecast"></div>
+        </div>
       </div>
-
-      <div>
-        <h2 class="subtitle fs-4 bg-light">5 Day forecast</h2>
-        <div class="five-day-forecast"></div>
-      </div>
-    </div>
-
- 
-  </main>
+    </main>
     <!-- JQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <!-- Script JS -->
