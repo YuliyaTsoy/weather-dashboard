@@ -1,6 +1,4 @@
 // var APIKey = "2c31d1b4f04a9808197b6b9242d8d05a";
-// var currentCity = "";
-// var lastCity = "";
 
 // adding input to the list of previously searched cities 
 function addInput(){
@@ -24,9 +22,7 @@ $(".prev-searched-cities").on('click', function(event){
      $("#cityInput").val() =  event.target.id;
     getInput(); 
 });
-// event listener for search button
-$("#searchButton").on('click', addInput);
-$("#searchButton").on('click', getInput);
+
 
 // showing current weather conditions for the city
 
@@ -60,7 +56,7 @@ function getInput(){
     $(".city-name").append(cityName)    
     $(".city-name").append(dateTime)   
     
-    var geoLink = 'https://api.openweathermap.org/geo/1.0/direct?q=' + cityCode + "," + countryCode + "&limit=5&appid=04f50896a4e31a98e332740a88e3546c"
+    var geoLink = 'https://api.openweathermap.org/geo/1.0/direct?q=' + cityCode + "&limit=5&appid=04f50896a4e31a98e332740a88e3546c"
     // using fetch method, convert response into json and return
     fetch(geoLink)
     .then(function(response){
@@ -71,7 +67,7 @@ function getInput(){
         latitude = data[0].lat;
 
         // fetching current wather
-        var theUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + latitude + "&lon="+ longitude + "&exclude=minutely,hourly,alerts&units=imperial&appid=04f50896a4e31a98e332740a88e3546c";
+        var theUrl = 'https://api.openweathermap.org/data/2.5/weather?lat=' + latitude + "&lon="+ longitude + "&exclude=minutely,hourly,alerts&units=imperial&appid=04f50896a4e31a98e332740a88e3546c";
 
         fetch(theUrl)
         .then (function(response){
@@ -138,12 +134,16 @@ function getInput(){
 // get data from local storage
 function getData(){
     var currentList =localStorage.getItem("city");
-    if (currentList !== null ){
+    if (!currentList){
+        console.log(currentList);
         newList = JSON.parse(currentList);
+
+        console.log(newList)
         return newList;
     } else {
         newList = [];
     }
+    console.log(newList)
     return newList;
 
 }
@@ -154,10 +154,10 @@ function addInput () {
     cityList = getData();
     
     if (cityList.includes(cityInput) === false){
-        addedItems.push();
+        cityList.push(cityInput);
     }
    
-    localStorage.setItem("city", JSON.stringify(addedItems));
+    localStorage.setItem("city", JSON.stringify(cityList));
 };
 
 //render city list
@@ -175,3 +175,7 @@ function renderCityList () {
 };
 
 renderCityList();
+
+// event listener for search button
+$("#searchButton").on('click', addInput);
+$("#searchButton").on('click', getInput);
