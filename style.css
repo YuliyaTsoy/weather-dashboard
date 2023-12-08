@@ -1,0 +1,19 @@
+main {
+  margin-left: 40px auto;
+  width: 94%;
+  min-height: 100%;
+  overflow: auto;
+}
+.float-end {
+  margin-top: -160px;
+  padding-top: 20px;
+  background-color: rgb(208, 210, 211);
+  border-radius: 5px;
+}
+.five-day-forecast {
+  display: flex;
+  padding-right: 20px;
+}
+#forecast {
+  margin-top: 20px;
+}
