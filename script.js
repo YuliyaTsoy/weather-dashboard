@@ -104,11 +104,17 @@ function getInput(){
                     var oneDayWrapper = $("<div>");
                     windForecast.text("Wind Speed: " + data.list[i].wind.speed + " mph");
                     tempForecast.text("Temperature: "+ data.list[i].main.temp + " F");
+                    console.log(data.list[i].main.temp);
                     humidityForecast.text("Humidity: " + data.list[i].main.humidity + " %");
                     var newdate = new Date(data.list[i].dt * 1000);
                    
                     forecastDate.text("("+ (newdate.getMonth()+1) + "/" + newdate.getDate() + "/" + newdate.getFullYear() + ")");
                     
+                    newIcon = data.list[i].weather[0].icon;
+                    var forecastIconUrl;
+                    forecastIconUrl = "https://openweathermap.org/img/wn/" + newIcon + ".png";
+                    forecastIcon.attr('src',forecastIconUrl);
+
                     oneDayWrapper.append(windForecast);
                     oneDayWrapper.append(tempForecast);
                     oneDayWrapper.append(humidityForecast);
