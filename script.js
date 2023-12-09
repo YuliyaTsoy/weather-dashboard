@@ -1,8 +1,8 @@
 // APIKey = "04f50896a4e31a98e332740a88e3546c";
 
-function addInput(){
+function previouslySearchedCityList(){
     cityInput = $("#cityInput").val();
-    cityList = getData();
+    cityList = getDataFromLocalStorage();
     var lastCity = $("<div>");
     lastCity.attr('id',cityInput);
     lastCity.text(cityInput);
@@ -13,19 +13,17 @@ function addInput(){
     }
     $(".card-subtitle").attr("style","display:inline")
     addInputLocalStorage ();
-    getInput();
+    currentWeather();
     
 };
 // showing current weather conditions for the city
 
-function getInput(){
+function currentWeather(){
     $(".five-day-forecast").empty();
     $(".city-name").empty();
 
     cityInput = $("#cityInput").val();
     var cityCode = cityInput;
-    // var countryCode = "US";
-    console.log(cityCode);
     var longitude;
     var latitude;
 
@@ -66,7 +64,7 @@ function getInput(){
             return response.json();
         })
         .then (function(data){
-            console.log(data)
+           
            weatherIcon = data.weather[0].icon;
             
             img = "https://openweathermap.org/img/wn/" + weatherIcon + ".png";
@@ -75,7 +73,7 @@ function getInput(){
             cityName.text(cityCode);
 
             var date = new Date(data.dt * 1000);
-            console.log (date)
+            
             dateTime.text("("+ (date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear() + ")");
 
             wind.text("Wind Speed: " + data.wind.speed + " MPH");
@@ -92,7 +90,7 @@ function getInput(){
                 return response.json();
             })
             .then (function(data){
-                console.log(data.list);
+              
                  // for loop that uses every 8th data point 
                 for (var i = 0; i<data.list.length; i+=8){
                     
@@ -102,9 +100,10 @@ function getInput(){
                     var tempForecast =$("<div>"); 
                     var humidityForecast=$("<div>");
                     var oneDayWrapper = $("<div>");
+                    
                     windForecast.text("Wind Speed: " + data.list[i].wind.speed + " mph");
-                    tempForecast.text("Temperature: "+ data.list[i].main.temp + " F");
-                    console.log(data.list[i].main.temp);
+                    tempForecast.text("Temperature: "+ ((data.list[i].main.temp -273.15)*9/5+32).toFixed(2) + " F"); // Formula converts Kelvin temperature to Farenheit
+                    
                     humidityForecast.text("Humidity: " + data.list[i].main.humidity + " %");
                     var newdate = new Date(data.list[i].dt * 1000);
                    
@@ -131,37 +130,41 @@ function getInput(){
     })
 }
 // get data from local storage
-function getData(){
+function getDataFromLocalStorage(){
     var currentList =localStorage.getItem("city");
+    console.log(currentList);
     if (!currentList){
-        console.log(currentList);
-        newList = JSON.parse(currentList);
-
-        console.log(newList)
-        return newList;
+        // newList = JSON.parse(currentList);
+        currentList =[];
+        // console.log(newList)
+        // return newList;
     } else {
-        newList = [];
+       currentList = JSON.parse(currentList);
     }
-    console.log(newList)
-    return newList;
+    return currentList;
+    // console.log(newList)
+    // return newList;
 
 }
 
 //set data to local storage
 function addInputLocalStorage () {
+    var currentList = getDataFromLocalStorage();
+    // cityList = getDataFromLocalStorage();
     
-    cityList = getData();
-    
-    if (!cityList.includes(cityInput)){
-        cityList.push(cityInput);
-    }
+    // if (cityList.includes(cityInput)===false){
+        
+        currentList.push(cityInput);
+    // }
    
-    localStorage.setItem("city", JSON.stringify(cityList));
+    localStorage.setItem("city", JSON.stringify(currentList));
+   
+
 };
 
 //render city list
 function renderCityList () {
-    var cityList = getData();
+    var cityList = getDataFromLocalStorage();
     for (var i = 0; i < cityList.length; i++) {
         var cityInput = cityList[i];
         var lastCity =$("<div>") 
@@ -176,4 +179,4 @@ function renderCityList () {
 renderCityList();
 
 // event listener for search button
-$("#searchButton").on('click', addInput);
+$("#searchButton").on('click', previouslySearchedCityList);
