@@ -2,13 +2,13 @@
 
 function previouslySearchedCityList(){
     cityInput = $("#cityInput").val();
-    cityList = getDataFromLocalStorage();
+    currentList = getDataFromLocalStorage();
     var lastCity = $("<div>");
     lastCity.attr('id',cityInput);
     lastCity.text(cityInput);
     lastCity.addClass("h4");
 
-    if (!cityList.includes(cityInput)){
+    if (!currentList.includes(cityInput)){
         $(".prev-searched-cities").append(lastCity)
     }
     $(".card-subtitle").attr("style","display:inline")
@@ -150,12 +150,12 @@ function getDataFromLocalStorage(){
 //set data to local storage
 function addInputLocalStorage () {
     var currentList = getDataFromLocalStorage();
-    // cityList = getDataFromLocalStorage();
+  
     
-    // if (cityList.includes(cityInput)===false){
+    if (!currentList.includes(cityInput)){
         
         currentList.push(cityInput);
-    // }
+    }
    
     localStorage.setItem("city", JSON.stringify(currentList));
    
