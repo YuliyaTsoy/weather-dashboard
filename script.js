@@ -21,9 +21,8 @@ function previouslySearchedCityList() {
 function currentWeather(cityInput) {
   $(".five-day-forecast").empty();
   $(".city-name").empty();
-    cityCode = cityInput;
+  cityCode = cityInput;
 
-  
   var longitude;
   var latitude;
 
@@ -186,10 +185,9 @@ function addInputLocalStorage() {
 
   localStorage.setItem("city", JSON.stringify(currentList));
 }
-// display search for cities in the "Previously Searched" list
-function displayPastSearch() {
+// display weather for cities in the "Previously Searched" list
+function displayWeatherPastSearch() {
   currentWeather($(this).val());
- 
 }
 //render city list
 function renderCityList() {
@@ -208,7 +206,7 @@ function renderCityList() {
 
 renderCityList();
 
+// event listner for city-buttons
+$(".city-button").on("click", displayWeatherPastSearch);
 // event listener for search button
 $("#searchButton").on("click", previouslySearchedCityList);
-// event listner for city-buttons
-$(".city-button").on("click", displayPastSearch);
