@@ -163,16 +163,11 @@ function getDataFromLocalStorage() {
   var currentList = localStorage.getItem("city");
 
   if (!currentList) {
-    // newList = JSON.parse(currentList);
     currentList = [];
-    // console.log(newList)
-    // return newList;
   } else {
     currentList = JSON.parse(currentList);
   }
   return currentList;
-  // console.log(newList)
-  // return newList;
 }
 
 //set data to local storage
@@ -186,9 +181,15 @@ function addInputLocalStorage() {
   localStorage.setItem("city", JSON.stringify(currentList));
 }
 // display weather for cities in the "Previously Searched" list
-function displayWeatherPastSearch() {
-  currentWeather($(this).val());
+function displayWeatherPastSearch(cityName) {
+  currentWeather(cityName);
 }
+// event listner for city-buttons
+$(document).on("click", ".city-button", function () {
+  var cityName = $(this).text(); // Extract the city name from the clicked element
+  displayWeatherPastSearch(cityName); // Pass the city name to the function
+});
+
 //render city list
 function renderCityList() {
   var cityList = getDataFromLocalStorage();
@@ -206,7 +207,5 @@ function renderCityList() {
 
 renderCityList();
 
-// event listner for city-buttons
-$(".city-button").on("click", displayWeatherPastSearch);
 // event listener for search button
 $("#searchButton").on("click", previouslySearchedCityList);
